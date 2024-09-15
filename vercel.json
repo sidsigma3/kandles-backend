@@ -1,9 +1,20 @@
 { "version": 2,
 "routes":[{"src":"/(.*)","dest":"/"}],
 "builds": [{"src":"server.js","use":"@vercel/node"}],
-"headers": {
-    "Access-Control-Allow-Origin": "*"
-}
+"headers": [
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "https://your-frontend-domain.com"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type"
+    },
+    {
+      "key": "Access-Control-Allow-Credentials",
+      "value": "true"
+    }
+  ]
 
 }
 
