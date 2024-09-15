@@ -12,7 +12,7 @@ app.use(cors());
 const socketIO = require("socket.io");
 const io = socketIO(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin:["http://localhost:3000","https://kandles-ui.vercel.app/"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   },
