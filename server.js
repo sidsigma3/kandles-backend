@@ -15,6 +15,7 @@ const io = socketIO(httpServer, {
     origin:["http://localhost:3000","https://kandles-ui.vercel.app/"],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
+    credential: true
   },
 });
 
