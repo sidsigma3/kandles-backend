@@ -1,24 +1,34 @@
 require('dotenv').config();
 const mysql = require('mysql');
 
-// Use the Clever Cloud environment variables to configure the connection
-const db = mysql.createConnection({
-  host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
-  user:'unr1tnyago7kvkrv',
-  password:'4jkun8UayxYkgHocyj9Y',
-  database: 'bjbjotkpn4piwqplzpwn',
-  port: 3306
-});
+function handleDisconnect() {
+  const db = mysql.createConnection({
+    host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
+    user: 'unr1tnyago7kvkrv',
+    password: '4jkun8UayxYkgHocyj9Y',
+    database: 'bjbjotkpn4piwqplzpwn',
+    port: 3306
+  });
 
+  db.connect((err) => {
+    if (err) {
+      console.error('Error reconnecting to the MySQL database:', err);
+      setTimeout(handleDisconnect, 2000); // Try to reconnect after 2 seconds
+    } else {
+      console.log('Reconnected to the MySQL database');
+    }
+  });
 
+  db.on('error', (err) => {
+    console.error('Database error:', err);
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      handleDisconnect(); // Reconnect on connection loss
+    } else {
+      throw err;
+    }
+  });
 
-// Connect to the database
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the MySQL database:', err);
-    return;
-  }
-  console.log('Connected to the MySQL database');
-});
+  module.exports = db;
+}
 
-module.exports = db;
+handleDisconnect();
