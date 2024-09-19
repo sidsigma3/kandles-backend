@@ -13,7 +13,7 @@ const socketIO = require("socket.io");
 const io = socketIO(httpServer, {
   cors: {
     origin:["http://localhost:3000","https://kandles-ui.vercel.app/"],
-    methods: ["GET", "POST"],
+    methods: ["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
     allowedHeaders: ["Content-Type"],
     credential: true
   },
