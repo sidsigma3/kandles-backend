@@ -35,11 +35,11 @@ const { spawn } = require('child_process');
 
 
 const htmlTemplate = fs.readFileSync(
-  "./config/WelocomeEmail.html",
+  "config/WelocomeEmail.html",
   "utf8"
 );
 const resetEmail = fs.readFileSync(
-  "./config/resetEmail.html",
+  "config/resetEmail.html",
   "utf-8"
 );
 
