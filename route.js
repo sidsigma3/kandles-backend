@@ -32,12 +32,14 @@ const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const { spawn } = require('child_process');
 
+
+
 const htmlTemplate = fs.readFileSync(
-  "./../trade/src/components/WelocomeEmail.html",
+  "./config/WelocomeEmail.html",
   "utf8"
 );
 const resetEmail = fs.readFileSync(
-  "./../trade/src/components/resetEmail.html",
+  "./config/resetEmail.html",
   "utf-8"
 );
 
