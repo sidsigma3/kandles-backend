@@ -34,15 +34,14 @@ const { spawn } = require('child_process');
 
 
 
-const htmlTemplate = fs.readFileSync(
-  "config/WelocomeEmail.html",
-  "utf8"
-);
-const resetEmail = fs.readFileSync(
-  "config/resetEmail.html",
-  "utf-8"
-);
+const welcomeEmailPath = path.join(__dirname, "config/WelocomeEmail.html");
+const resetEmailPath = path.join(__dirname, "config/resetEmail.html");
 
+
+
+// Now, read the files using the absolute paths
+const htmlTemplate = fs.readFileSync(welcomeEmailPath, "utf8");
+const resetEmail = fs.readFileSync(resetEmailPath, "utf-8");
 
 var access_token = null;
 let protobufRoot = null;
