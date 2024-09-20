@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql");
-const db = require("./config/db");
+const { query } = require("./config/db");
 const nodemailer = require("nodemailer");
 var url = require("url");
 const emailId = "sidsigma3@gmail.com";
@@ -115,7 +115,7 @@ module.exports = function (io) {
       return;
     }
 
-    db.query(
+    query(
       "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
       [email, password],
       (err, result) => {
@@ -343,8 +343,8 @@ module.exports = function (io) {
 
   
 
-    db.query(
-      "SELECT * FROM login.user WHERE email=? ",
+    query(
+      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? ",
       [email],
       (err, result) => {
         if (err) {
