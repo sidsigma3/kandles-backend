@@ -2354,12 +2354,14 @@ end_date = pd.to_datetime(end_date, format='%d-%m-%Y')
 
 results = []
 
+base_dir = os.path.join(os.path.dirname(__file__), 'config', 'stock_historical_data')
+
 # looping over every symbol for backtesting
 
 for symbol in symbol:
     
-
-    file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
+    # file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
+    file_path = os.path.join(base_dir, time_period, f'{symbol}.csv')
     sbi_data = pd.read_csv(file_path)
     # sbi_data = suppress_print(equity_history, symbol, series, start_date, end_date)
     sbi_data['date'] = pd.to_datetime(sbi_data['date'], utc=False)  
