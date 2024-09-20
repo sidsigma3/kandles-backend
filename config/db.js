@@ -1,14 +1,17 @@
 require('dotenv').config();
 const mysql = require('mysql');
 
+const db = mysql.createConnection({
+  host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
+  user: 'unr1tnyago7kvkrv',
+  password: '4jkun8UayxYkgHocyj9Y',
+  database: 'bjbjotkpn4piwqplzpwn',
+  port: 3306
+});
+
+
 function handleDisconnect() {
-  const db = mysql.createConnection({
-    host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
-    user: 'unr1tnyago7kvkrv',
-    password: '4jkun8UayxYkgHocyj9Y',
-    database: 'bjbjotkpn4piwqplzpwn',
-    port: 3306
-  });
+  
 
   db.connect((err) => {
     if (err) {
