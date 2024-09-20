@@ -116,7 +116,7 @@ module.exports = function (io) {
     }
 
     db.query(
-      "SELECT * FROM login.user WHERE email=? AND password=?",
+      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
       [email, password],
       (err, result) => {
         if (err) {
