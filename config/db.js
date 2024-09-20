@@ -1,10 +1,8 @@
 require('dotenv').config();
 const mysql = require('mysql');
 
-let db;
-
 function handleDisconnect() {
-  db = mysql.createConnection({
+  const db = mysql.createConnection({
     host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
     user: 'unr1tnyago7kvkrv',
     password: '4jkun8UayxYkgHocyj9Y',
@@ -14,27 +12,24 @@ function handleDisconnect() {
 
   db.connect((err) => {
     if (err) {
-      console.error('Error connecting to MySQL database:', err);
-      setTimeout(handleDisconnect, 2000); // Retry connection after 2 seconds
+      console.error('Error reconnecting to the MySQL database:', err);
+      setTimeout(handleDisconnect, 2000); // Try to reconnect after 2 seconds
     } else {
-      console.log('Connected to the MySQL database');
+      console.log('Reconnected to the MySQL database');
     }
   });
 
   db.on('error', (err) => {
-    console.error('MySQL error:', err);
+    console.error('Database error:', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.log('MySQL connection lost, reconnecting...');
-      handleDisconnect(); // Reconnect if connection lost
+      handleDisconnect(); // Reconnect on connection loss
     } else {
       throw err;
     }
   });
+
+  
 }
 
-// Initialize connection
 handleDisconnect();
-
-module.exports = {
-  getConnection: () => db  // Export a function to get the current `db` instance
-};
+module.exports = db;
