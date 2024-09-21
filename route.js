@@ -2346,10 +2346,10 @@ function getMargins(segment) {
     // const pythonProcess = spawn('python', ['./config/strategy.py', JSON.stringify(req.body)]);
     
     const scriptPath = path.join('config', 'strategy.py');
-    console.log(scriptPath,'print')
+    console.log(scriptPath,__dirname)
     // Use 'python3' if available on the server, otherwise 'python'
     const pythonProcess = spawn('python3', [scriptPath, JSON.stringify(req.body)]);
-    
+
     let dataString = '';
     pythonProcess.stdout.on('data', (data) => {
         dataString += data.toString();
