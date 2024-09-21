@@ -99,7 +99,7 @@ let loginAttempts = 0;
 module.exports = function (io) {
 
 
-    router.post("/login", (req, res) => {
+  router.post("/login", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -107,7 +107,7 @@ module.exports = function (io) {
     if (loginAttempts >= 3) {
       res.json({
         stat: 401,
-        msg: "You have exceeded the maximum number of login attempts. Please wait for 3 minute or try forgot password.",
+        msg: "You have exceeded the maximum number of login attempts. Please wait for 3 minutes or try forgot password.",
       });
       setTimeout(() => {
         loginAttempts = 0;
@@ -115,42 +115,41 @@ module.exports = function (io) {
       return;
     }
 
-    query(
-      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
-      [email, password],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-          res.json({
-            stat: 500,
-            msg: "Server error",
-          });
-        } else {
-          if (result.length > 0) {
+    try {
+      const result = await query(
+        "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
+        [email, password]
+      );
 
-            const token = jwt.sign({ email: result[0].email, userId: result[0].id }, 'secret-key', { expiresIn: '1h' });
+      if (result.length > 0) {
+        // Generate a token
+        const token = jwt.sign(
+          { email: result[0].email, userId: result[0].id },
+          'secret-key',
+          { expiresIn: '1h' }
+        );
 
-            loginAttempts = 0;
-            res.json({
-              stat: 200,
-              msg: "Sucessfully entered website",
-              token: token,
-            });
-          } else {
-            loginAttempts++;
-            res.json({
-              stat: 201,
-              msg:
-                "Email and password doesn't match you have, " +
-                (4 - loginAttempts) +
-                " more attempts left",
-            });
-          }
-        }
+        loginAttempts = 0;
+        res.json({
+          stat: 200,
+          msg: "Successfully entered website",
+          token: token,
+        });
+      } else {
+        loginAttempts++;
+        res.json({
+          stat: 201,
+          msg: `Email and password don't match. You have ${(4 - loginAttempts)} more attempts left.`,
+        });
       }
-    );
-  });
-
+    } catch (err) {
+      console.error("Database query error:", err);
+      res.json({
+        stat: 500,
+        msg: "Server error",
+      });
+    }
+});
 
   router.post('/payment', async (req,res)=>{
 
