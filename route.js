@@ -2345,11 +2345,11 @@ function getMargins(segment) {
   router.post('/backtest', (req, res) => {
     // const pythonProcess = spawn('python', ['./config/strategy.py', JSON.stringify(req.body)]);
     
-    const scriptPath = path.join(__dirname, 'config', 'strategy.py');
+    const scriptPath = path.join('config', 'strategy.py');
     console.log(scriptPath,'print')
     // Use 'python3' if available on the server, otherwise 'python'
     const pythonProcess = spawn('python3', [scriptPath, JSON.stringify(req.body)]);
-
+    
     let dataString = '';
     pythonProcess.stdout.on('data', (data) => {
         dataString += data.toString();
