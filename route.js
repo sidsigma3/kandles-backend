@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mysql = require("mysql");
-const { query } = require("./config/db");
+const db = require("./config/db");
 const nodemailer = require("nodemailer");
 var url = require("url");
 const emailId = "sidsigma3@gmail.com";
@@ -99,7 +99,7 @@ let loginAttempts = 0;
 module.exports = function (io) {
 
 
-  router.post("/login", async (req, res) => {
+    router.post("/login", (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
@@ -107,7 +107,7 @@ module.exports = function (io) {
     if (loginAttempts >= 3) {
       res.json({
         stat: 401,
-        msg: "You have exceeded the maximum number of login attempts. Please wait for 3 minutes or try forgot password.",
+        msg: "You have exceeded the maximum number of login attempts. Please wait for 3 minute or try forgot password.",
       });
       setTimeout(() => {
         loginAttempts = 0;
@@ -115,41 +115,42 @@ module.exports = function (io) {
       return;
     }
 
-    try {
-      const result = await query(
-        "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
-        [email, password]
-      );
+    db.query(
+      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
+      [email, password],
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            stat: 500,
+            msg: "Server error",
+          });
+        } else {
+          if (result.length > 0) {
 
-      if (result.length > 0) {
-        // Generate a token
-        const token = jwt.sign(
-          { email: result[0].email, userId: result[0].id },
-          'secret-key',
-          { expiresIn: '1h' }
-        );
+            const token = jwt.sign({ email: result[0].email, userId: result[0].id }, 'secret-key', { expiresIn: '1h' });
 
-        loginAttempts = 0;
-        res.json({
-          stat: 200,
-          msg: "Successfully entered website",
-          token: token,
-        });
-      } else {
-        loginAttempts++;
-        res.json({
-          stat: 201,
-          msg: `Email and password don't match. You have ${(4 - loginAttempts)} more attempts left.`,
-        });
+            loginAttempts = 0;
+            res.json({
+              stat: 200,
+              msg: "Sucessfully entered website",
+              token: token,
+            });
+          } else {
+            loginAttempts++;
+            res.json({
+              stat: 201,
+              msg:
+                "Email and password doesn't match you have, " +
+                (4 - loginAttempts) +
+                " more attempts left",
+            });
+          }
+        }
       }
-    } catch (err) {
-      console.error("Database query error:", err);
-      res.json({
-        stat: 500,
-        msg: "Server error",
-      });
-    }
-});
+    );
+  });
+
 
   router.post('/payment', async (req,res)=>{
 
@@ -342,8 +343,8 @@ module.exports = function (io) {
 
   
 
-    query(
-      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? ",
+    db.query(
+      "SELECT * FROM login.user WHERE email=? ",
       [email],
       (err, result) => {
         if (err) {
