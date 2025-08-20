@@ -3,13 +3,16 @@ import pandas_ta as ta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
-from nsepython import *
+# from nsepython import *
 import base64
 from io import BytesIO
 from json import JSONEncoder
+import json  
 from pandas import Timestamp
 import os
 import datetime as dt
+import sys
+
 
 buf = BytesIO()
 input_data = json.loads(sys.argv[1])
@@ -24,11 +27,13 @@ start_date = input_data.get('startDate')
 end_date = input_data.get('endDate')
 initial_capital = input_data.get('backCapital')
 quantity=input_data.get('backQuantity')
-strategy_type = input_data.get('entryType')
+# strategy_type = input_data.get('entryType')
 graph_type = input_data.get('graphType')
 trailing_sl=input_data.get('trailPct')
 
 position_size_type = input_data.get('positionSizeType')
+if position_size_type == "Select Position Size":
+    position_size_type = None
 max_quantity = input_data.get('maxQuantity')
 max_size_amount = input_data.get('sizeAmount')
 
@@ -54,6 +59,8 @@ max_short_entry = input_data.get('maxShort', 1)
 
 selected_days = input_data.get('selectedDaysForIndi')
 
+
+
 # stopLoss = 0.01
 # target = 0.02
 
@@ -69,48 +76,10 @@ selected_days = input_data.get('selectedDaysForIndi')
 # conditions = [
 #     {
 #         "indicatorOne": {
-#             "value": "macd",
-#             "displayValue": "MACD",
-#             "indiInputs": {
-#                 "fastPeriod": 18,
-#                 "slowPeriod": 7,
-#                 "signalPeriod": 11
-#             }
-#         },
-#         "comparator": "crosses-above",
-#         "indicatorTwo": {
-#             "value": "macd",
-#             "displayValue": "MACD",
-#             "indiInputs": {
-#                 "fastPeriod": 33,
-#                 "slowPeriod": 32,
-#                 "signalPeriod": 30
-#             }
-#         }
-#     },
-#     {
-#         "indicatorOne": {
 #             "value": "rsi",
 #             "displayValue": "RSI",
 #             "indiInputs": {
-#                 "period": 4
-#             }
-#         },
-#         "comparator": "higher-than",
-#         "indicatorTwo": {
-#             "value": "number",
-#             "displayValue": "Number",
-#             "indiInputs": {
-#                 "number": 43
-#             }
-#         }
-#     },
-#     {
-#         "indicatorOne": {
-#             "value": "rsi",
-#             "displayValue": "RSI",
-#             "indiInputs": {
-#                 "period": 8
+#                 "period": 14
 #             }
 #         },
 #         "comparator": "crosses-above",
@@ -124,10 +93,9 @@ selected_days = input_data.get('selectedDaysForIndi')
 #     }
 # ]
 
-# # conditions=[]
+# conditions=[]
 # operator = [
-#     "AND",
-#     "AND"
+
 # ]
 # conditions2=[]
 # operator2=[]
@@ -179,17 +147,16 @@ selected_days = input_data.get('selectedDaysForIndi')
 # exit_operator2= []
 # exit_conditions2 =[]
 
-# strategy_type = 'sell'
-# trailing_sl = 0.1
+# trailing_sl = None
 
 # graph_type = 'candle'
 
 # position_size_type = None
 # max_quantity = None
 # max_size_amount = None
-# moveSl = None
-# moveInstrument = None
-# time_period = 'hourly'
+# moveSl = 0.03
+# moveInstrument = 0.01
+# time_period = 'daily'
 # trade_type = 'cnc'
 # max_long_entry = 3
 # max_short_entry = 3
@@ -1146,7 +1113,7 @@ for instrument in symbol:
 
 #function for backtesting 
 
-def execute_and_analyze_strategy(data, strategy_type, stop_loss_pct, price_move_pct, trailing_stop_loss_pct, target_pct, initial_funds, quantity, trade_type,position_size_type=None, max_size_amount=None, max_quantity=None, exit_conditions=None,exit_conditions_short=None):
+def execute_and_analyze_strategy(data, stop_loss_pct, price_move_pct, trailing_stop_loss_pct, target_pct, initial_funds, quantity, trade_type,position_size_type=None, max_size_amount=None, max_quantity=None, exit_conditions=None,exit_conditions_short=None):
     is_in_position = False
     is_in_position_short = False
     entry_price = 0
@@ -2354,14 +2321,14 @@ end_date = pd.to_datetime(end_date, format='%d-%m-%Y')
 
 results = []
 
-base_dir = os.path.join(os.path.dirname(__file__), 'config', 'stock_historical_data')
+base_dir = os.path.join(os.path.dirname(__file__),'stock_historical_data')
 
 # looping over every symbol for backtesting
 
 for symbol in symbol:
     
-    # file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
-    file_path = os.path.join(base_dir, time_period, f'{symbol}.csv')
+    file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
+    # file_path = os.path.join(base_dir, time_period, f'{symbol}.csv')
     sbi_data = pd.read_csv(file_path)
     # sbi_data = suppress_print(equity_history, symbol, series, start_date, end_date)
     sbi_data['date'] = pd.to_datetime(sbi_data['date'], utc=False)  
@@ -2410,7 +2377,7 @@ for symbol in symbol:
     # Execute strategy analysis
     # strategy_metrics_2 = execute_and_analyze_strategy_2(sbi_data, strategy_type ,stopLoss,trailing_sl, target, initial_capital, quantity,position_size_type,max_size_amount,max_quantity,exit_conditions)
   
-    strategy_metrics = execute_and_analyze_strategy(sbi_data, strategy_type ,stopLoss,moveInstrument,moveSl, target, initial_capital, quantity,trade_type,position_size_type,max_size_amount,max_quantity,exit_conditions,exit_conditions2)
+    strategy_metrics = execute_and_analyze_strategy(sbi_data,stopLoss,moveInstrument,moveSl, target, initial_capital, quantity,trade_type,position_size_type,max_size_amount,max_quantity,exit_conditions,exit_conditions2)
     
    
     # strategy_metrics_2 = execute_and_analyze_strategy_2(sbi_data, strategy_type ,stopLoss,moveInstrument,moveSl, target, initial_capital, quantity,trade_type,position_size_type,max_size_amount,max_quantity,exit_conditions)
