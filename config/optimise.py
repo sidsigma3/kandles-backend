@@ -642,7 +642,12 @@ def combine_signals(data, entry_conditions, entry_logical_operators, exit_condit
 
 
 
-file_path_vix = os.path.join(r'D:\stock_historical_data', f'historical_data_{time_period}', 'INDIA VIX.csv')
+file_path_vix = os.path.join(
+    os.path.dirname(__file__),
+    'stock_historical_data',
+    f'historical_data_{time_period}',
+    'INDIA VIX.csv'
+)
 
 df_vix = pd.read_csv(file_path_vix)
 
@@ -663,7 +668,12 @@ vix_classification_dict = df_vix['vix_classification'].to_dict()
 
 
 
-data_directory = r'D:\stock_historical_data\historical_data_daily' 
+data_directory = os.path.join(
+    os.path.dirname(__file__),
+    'stock_historical_data',
+    'historical_data_daily'
+)
+
 
 # function to get sentiment of day using open and close price
 
@@ -1454,7 +1464,12 @@ def evaluate_strategy(individual):
                 indicator['displayValue'] = indicator.get('displayValue')
 
     for symbol in symbols:
-        file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
+        file_path = os.path.join(
+            os.path.dirname(__file__),
+            'stock_historical_data',
+            f'historical_data_{time_period}',
+            f'{symbol}.csv'
+        )
         sbi_data = pd.read_csv(file_path)
         sbi_data['date'] = pd.to_datetime(sbi_data['date'], utc=False)
         data_timezone = sbi_data['date'].dt.tz
@@ -1651,7 +1666,12 @@ def backtest_with_best_parameters(best_parameters):
    
 
     for symbol in symbols:
-        file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
+        file_path = os.path.join(
+            os.path.dirname(__file__),
+            'stock_historical_data',
+            f'historical_data_{time_period}',
+            f'{symbol}.csv'
+        )
         sbi_data = pd.read_csv(file_path)
         sbi_data['date'] = pd.to_datetime(sbi_data['date'], utc=False)  
         data_timezone = sbi_data['date'].dt.tz
