@@ -1049,7 +1049,13 @@ def combine_signals(data, entry_conditions, entry_logical_operators, exit_condit
 #         'Cumulative PnL': cumulative_pnl
 #     }
 
-file_path_vix = os.path.join(r'D:\stock_historical_data', f'historical_data_{time_period}', 'INDIA VIX.csv')
+file_path_vix = os.path.join(
+    os.path.dirname(__file__),
+    'stock_historical_data',
+    f'historical_data_{time_period}',
+    'INDIA VIX.csv'
+)
+
 
 df_vix = pd.read_csv(file_path_vix)
 
