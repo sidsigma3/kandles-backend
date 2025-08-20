@@ -1076,7 +1076,11 @@ vix_classification_dict = df_vix['vix_classification'].to_dict()
 
 
 
-data_directory = r'D:\stock_historical_data\historical_data_daily' 
+data_directory = os.path.join(
+    os.path.dirname(__file__), 
+    'stock_historical_data', 
+    'historical_data_daily'
+)
 
 # function to get sentiment of day using open and close price
 
