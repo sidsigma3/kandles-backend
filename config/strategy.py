@@ -15,90 +15,90 @@ import sys
 
 
 buf = BytesIO()
-input_data = json.loads(sys.argv[1])
+# input_data = json.loads(sys.argv[1])
 
 
-#inputs from frontend
+# #inputs from frontend
 
-stopLoss=input_data.get('slPct')
-target=input_data.get('targetPct')
-symbol = input_data.get('backSymbol')
-start_date = input_data.get('startDate')
-end_date = input_data.get('endDate')
-initial_capital = input_data.get('backCapital')
-quantity=input_data.get('backQuantity')
-# strategy_type = input_data.get('entryType')
-graph_type = input_data.get('graphType')
-trailing_sl=input_data.get('trailPct')
+# stopLoss=input_data.get('slPct')
+# target=input_data.get('targetPct')
+# symbol = input_data.get('backSymbol')
+# start_date = input_data.get('startDate')
+# end_date = input_data.get('endDate')
+# initial_capital = input_data.get('backCapital')
+# quantity=input_data.get('backQuantity')
+# # strategy_type = input_data.get('entryType')
+# graph_type = input_data.get('graphType')
+# trailing_sl=input_data.get('trailPct')
 
-position_size_type = input_data.get('positionSizeType')
-if position_size_type == "Select Position Size":
-    position_size_type = None
-max_quantity = input_data.get('maxQuantity')
-max_size_amount = input_data.get('sizeAmount')
+# position_size_type = input_data.get('positionSizeType')
+# if position_size_type == "Select Position Size":
+#     position_size_type = None
+# max_quantity = input_data.get('maxQuantity')
+# max_size_amount = input_data.get('sizeAmount')
 
-moveSl = input_data.get('moveSlPct')
-moveInstrument = input_data.get('moveInstrumentPct')
-time_period = input_data.get('timePeriod')
-trade_type = input_data.get('marketType')
+# moveSl = input_data.get('moveSlPct')
+# moveInstrument = input_data.get('moveInstrumentPct')
+# time_period = input_data.get('timePeriod')
+# trade_type = input_data.get('marketType')
 
-conditions = input_data.get('strategyDetails')['conditions']
-operator = input_data.get('strategyDetails')['logicalOperators']
+# conditions = input_data.get('strategyDetails')['conditions']
+# operator = input_data.get('strategyDetails')['logicalOperators']
 
-exit_conditions = input_data.get('strategyDetailsExit')['conditions']
-exit_operator = input_data.get('strategyDetailsExit')['logicalOperators']
+# exit_conditions = input_data.get('strategyDetailsExit')['conditions']
+# exit_operator = input_data.get('strategyDetailsExit')['logicalOperators']
 
-conditions2 = input_data.get('strategyDetails2')['conditions']
-operator2 = input_data.get('strategyDetails2')['logicalOperators']
+# conditions2 = input_data.get('strategyDetails2')['conditions']
+# operator2 = input_data.get('strategyDetails2')['logicalOperators']
 
-exit_conditions2 = input_data.get('strategyDetailsExit2')['conditions']
-exit_operator2 = input_data.get('strategyDetailsExit2')['logicalOperators']
+# exit_conditions2 = input_data.get('strategyDetailsExit2')['conditions']
+# exit_operator2 = input_data.get('strategyDetailsExit2')['logicalOperators']
 
-max_long_entry = input_data.get('maxLong', 1)
-max_short_entry = input_data.get('maxShort', 1)
+# max_long_entry = input_data.get('maxLong', 1)
+# max_short_entry = input_data.get('maxShort', 1)
 
-selected_days = input_data.get('selectedDaysForIndi')
+# selected_days = input_data.get('selectedDaysForIndi')
 
 
 
-# stopLoss = 0.01
-# target = 0.02
+stopLoss = 0.01
+target = 0.02
 
-# start_date= '01-01-2021'
-# end_date = '01-01-2022'
-# initial_capital = 100000000
-# quantity = 50
+start_date= '01-01-2021'
+end_date = '01-01-2022'
+initial_capital = 100000000
+quantity = 50
 
-# symbol = [
-#   "HDFCBANK",
-#   "SBIN"
-# ]
-# conditions = [
-#     {
-#         "indicatorOne": {
-#             "value": "rsi",
-#             "displayValue": "RSI",
-#             "indiInputs": {
-#                 "period": 14
-#             }
-#         },
-#         "comparator": "crosses-above",
-#         "indicatorTwo": {
-#             "value": "rsi",
-#             "displayValue": "RSI",
-#             "indiInputs": {
-#                 "period": 25
-#             }
-#         }
-#     }
-# ]
+symbol = [
+  "HDFCBANK",
+  "SBIN"
+]
+conditions = [
+    {
+        "indicatorOne": {
+            "value": "rsi",
+            "displayValue": "RSI",
+            "indiInputs": {
+                "period": 14
+            }
+        },
+        "comparator": "crosses-above",
+        "indicatorTwo": {
+            "value": "rsi",
+            "displayValue": "RSI",
+            "indiInputs": {
+                "period": 25
+            }
+        }
+    }
+]
 
 # conditions=[]
-# operator = [
+operator = [
 
-# ]
-# conditions2=[]
-# operator2=[]
+]
+conditions2=[]
+operator2=[]
 
 
 # conditions2 = [{
@@ -141,33 +141,33 @@ selected_days = input_data.get('selectedDaysForIndi')
 #         }
 #     ]
 
-# exit_operator= []
-# exit_conditions =[]
+exit_operator= []
+exit_conditions =[]
 
-# exit_operator2= []
-# exit_conditions2 =[]
+exit_operator2= []
+exit_conditions2 =[]
 
-# trailing_sl = None
+trailing_sl = None
 
-# graph_type = 'candle'
+graph_type = 'candle'
 
-# position_size_type = None
-# max_quantity = None
-# max_size_amount = None
-# moveSl = 0.03
-# moveInstrument = 0.01
-# time_period = 'daily'
-# trade_type = 'cnc'
-# max_long_entry = 3
-# max_short_entry = 3
+position_size_type = None
+max_quantity = None
+max_size_amount = None
+moveSl = 0.03
+moveInstrument = 0.01
+time_period = 'daily'
+trade_type = 'cnc'
+max_long_entry = 3
+max_short_entry = 3
 
-# selected_days = {
-#     "Mon": True,
-#     "Tue": True,
-#     "Wed": True,
-#     "Thu": True,
-#     "Fri": True
-# }
+selected_days = {
+    "Mon": True,
+    "Tue": True,
+    "Wed": True,
+    "Thu": True,
+    "Fri": True
+}
 
 default_output_selection = {
     'macd': 'line',  # Use the MACD signal line
@@ -2329,6 +2329,7 @@ for symbol in symbol:
     
     # file_path = os.path.join(r'D:\stock_historical_data\historical_data_' + time_period, f'{symbol}.csv')
     file_path = os.path.join(base_dir, f'{symbol}.csv')
+    print(file_path)
     sbi_data = pd.read_csv(file_path)
     # sbi_data = suppress_print(equity_history, symbol, series, start_date, end_date)
     sbi_data['date'] = pd.to_datetime(sbi_data['date'], utc=False)  
