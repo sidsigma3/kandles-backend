@@ -1,18 +1,17 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 let db;
 
 function handleDisconnect() {
-  // Create a brand new connection instance
   db = mysql.createConnection({
-    host: 'bjbjotkpn4piwqplzpwn-mysql.services.clever-cloud.com',
-    user: 'unr1tnyago7kvkrv',
-    password: '4jkun8UayxYkgHocyj9Y',
-    database: 'bjbjotkpn4piwqplzpwn',
+    host: '82.112.231.150', // VPS IP
+    user: 'dbuser',
+    password: 'Sid$igma3',
+    database: 'kandles_db',
     port: 3306
   });
 
-  db.connect((err) => {
+  db.connect(err => {
     if (err) {
       console.error('Error reconnecting to MySQL:', err);
       setTimeout(handleDisconnect, 2000);
@@ -24,14 +23,13 @@ function handleDisconnect() {
   db.on('error', function (err) {
     console.error('Database error:', err);
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      handleDisconnect(); // Reconnect on connection loss
+      handleDisconnect();
     } else {
       throw err;
     }
   });
 }
 
-// start first connection
 handleDisconnect();
 
 module.exports = db;
