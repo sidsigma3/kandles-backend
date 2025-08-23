@@ -358,7 +358,7 @@ module.exports = function (io) {
           } else {
             console.log(phoneNumber);
             db.query(
-              "INSERT INTO login.user (fullName, userName, email,password,phoneNumber) VALUES (?,?,?,?,?)",
+              "INSERT INTO kandles_db.user (fullName, userName, email,password,phoneNumber) VALUES (?,?,?,?,?)",
               [fullName, userName, email, password, phoneNumber],
               (err, resu) => {
                 if (err) {
