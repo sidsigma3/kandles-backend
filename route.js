@@ -116,7 +116,7 @@ module.exports = function (io) {
     }
 
     db.query(
-      "SELECT * FROM bjbjotkpn4piwqplzpwn.user WHERE email=? AND password=?",
+      "SELECT * FROM `kandles_db`.`user` WHERE email = ? AND password = ?",
       [email, password],
       (err, result) => {
         if (err) {
@@ -344,7 +344,7 @@ module.exports = function (io) {
   
 
     db.query(
-      "SELECT * FROM login.user WHERE email=? ",
+      "SELECT * FROM `kandles_db`.`user` WHERE email = ?",
       [email],
       (err, result) => {
         if (err) {
