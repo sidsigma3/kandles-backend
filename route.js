@@ -314,15 +314,15 @@ module.exports = function (io) {
 
     if (registrationMethod === "email") {
       // Handle email signup logic
-       firstName = req.body.name;
-     
+       firstName = req.body.firstName;
+       lastName = req.body.lastName
        userName = req.body.username;
        email = req.body.email;
        password = req.body.password;
        repassword = req.body.rePassword;
        phoneNumber = req.body.phone;
   
-       fullName = firstName 
+       fullName = firstName+" "+lastName 
   
       // Your existing email signup logic here
     } else if (registrationMethod === "google") {
