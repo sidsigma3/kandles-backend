@@ -369,7 +369,7 @@ module.exports = function (io) {
                     msg: "Succesfully Registered",
                   });
 
-                  sendEmail(email, userName);
+                  // sendEmail(email, userName);
                 }
               }
             );
